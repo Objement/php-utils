@@ -9,6 +9,7 @@ use Exception;
 use Objement\OmPhpUtils\Exceptions\OmRequestHandlerInvalidDateTimeException;
 use Objement\OmPhpUtils\Exceptions\OmRequestHandlerInvalidEmailException;
 use Objement\OmPhpUtils\Exceptions\OmRequestHandlerInvalidIntegerException;
+use Objement\OmPhpUtils\Exceptions\OmRequestHandlerInvalidStringException;
 use Objement\OmPhpUtils\Exceptions\OmRequestHandlerOutOfDesiredLengthException;
 use Objement\OmPhpUtils\Exceptions\OmRequestHandlerOutOfDesiredRangeException;
 use Objement\OmPhpUtils\Exceptions\OmRequestHandlerValueNotInWhiteListException;
@@ -59,6 +60,10 @@ class OmRequestHandler implements OmRequestHandlerInterface
      */
     public function getString(string $name, ?int $minLength = null, ?int $maxLength = null): ?string
     {
+        if (!is_string($this->requestData[$name])) {
+            throw new OmRequestHandlerInvalidStringException();
+        }
+
         if (empty($this->requestData[$name]) || trim($this->requestData[$name]) === '') {
             return null;
         }
