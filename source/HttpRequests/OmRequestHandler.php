@@ -60,11 +60,15 @@ class OmRequestHandler implements OmRequestHandlerInterface
      */
     public function getString(string $name, ?int $minLength = null, ?int $maxLength = null): ?string
     {
+        if (!isset($this->requestData[$name])) {
+            return null;
+        }
+
         if (!is_string($this->requestData[$name])) {
             throw new OmRequestHandlerInvalidStringException();
         }
 
-        if (empty($this->requestData[$name]) || trim($this->requestData[$name]) === '') {
+        if (trim($this->requestData[$name]) === '') {
             return null;
         }
 
